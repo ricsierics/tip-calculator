@@ -2,13 +2,140 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:TipCalculator"
-             x:Class="TipCalculator.MainPage">
+             x:Class="TipCalculator.MainPage"
+             x:Name="MainPage">
+    <ContentPage.BindingContext>
+        <x:Reference Name="MainPage"/>
+    </ContentPage.BindingContext>
+    
+    <Grid Padding="20, 10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
 
-    <StackLayout>
-        <!-- Place new controls here -->
-    	<Label Text="Welcome to Xamarin.Forms!" 
-           HorizontalOptions="Center"
-           VerticalOptions="CenterAndExpand" />
-    </StackLayout>
+        <Image x:Name="imgDollar"
+               Grid.Row="0"
+               Grid.Column="0"
+               Grid.ColumnSpan="2"
+               HorizontalOptions="Center"/>
+
+        <Label Text="TIP CALCULATOR" 
+               TextColor="#66CC33"
+               Font="Bold, 20"
+               Grid.Row="1"
+               Grid.Column="0"
+               Grid.ColumnSpan="2"
+               HorizontalOptions="Center"/>
+
+        <Label Text="Bill"
+               Grid.Row="2"
+               Grid.Column="0"
+               Font="20"
+               HorizontalOptions="Start"/>
+        
+        <Label Text="Tip"
+               Grid.Row="3"
+               Grid.Column="0"
+               Font="20"
+               HorizontalOptions="Start"/>
+
+        <Label Text="Total"
+               Grid.Row="4"
+               Grid.Column="0"
+               Font="20"
+               HorizontalOptions="Start"/>
+
+        <Entry x:Name="entBill"
+               Placeholder="Enter Amount"
+               Grid.Row="2"
+               Grid.Column="1"
+               HorizontalOptions="Fill"
+               VerticalOptions="Center"
+               Keyboard="Numeric"/>
+
+        <Label x:Name="lblTipAmount"
+               Text="0.00"
+               Grid.Row="3"
+               Grid.Column="1"
+               Font="20"
+               HorizontalOptions="Start"
+               VerticalOptions="Center"/>
+
+        <Label x:Name="lblTotal"
+               Text="0.00"
+               Grid.Row="4"
+               Grid.Column="1"
+               Font="20"
+               HorizontalOptions="Start"
+               VerticalOptions="Start"/>
+     
+        <Label Text="Tip Percentage"
+               Font="20"
+               Grid.Row="5"
+               Grid.Column="0"
+               HorizontalOptions="Start"
+               VerticalOptions="End"/>
+
+        <Label x:Name="lblTipPercent"
+               Text="15%"
+               Grid.Row="5"
+               Grid.Column="1"
+               HorizontalOptions="End"
+               VerticalOptions="End"/>
+
+        <Slider x:Name="sdrTipPercentage" 
+                Minimum="0"
+                Maximum="100"
+                Value="15"
+                Grid.Row="6"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                ValueChanged="OnsdrValueChanged"/>
+
+        <Button Text="15%"
+                Grid.Row="7"
+                Grid.Column="0"
+                x:Name="btn15Percent"
+                Clicked="Onbtn15PercentClicked"/>
+
+        <Button Text="20%"
+                Grid.Row="7"
+                Grid.Column="1"
+                x:Name="btn20Percent"
+                Clicked="Onbtn20PercentClicked"/>
+
+        <Button Text="ROUND DOWN"
+                Grid.Row="8"
+                Grid.Column="0"
+                x:Name="btnRoundDown"
+                Clicked="OnbtnRoundDownClicked"/>
+
+        <Button Text="ROUND UP"
+                Grid.Row="8"
+                Grid.Column="1"
+                x:Name="btnRoundUp"
+                Clicked="OnbtnRoundUpClicked"/>
+
+        <Label Text="{Binding DeveloperName, StringFormat='Developed by {0}'}"
+               Grid.Row="9"
+               Grid.Column="0"
+               Grid.ColumnSpan="2"
+               HorizontalOptions="Center"
+               TextColor="#000000"/>
+    </Grid>
 
 </ContentPage>

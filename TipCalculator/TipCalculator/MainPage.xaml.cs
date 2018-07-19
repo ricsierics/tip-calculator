@@ -1,17 +1,70 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace TipCalculator
 {
 	public partial class MainPage : ContentPage
 	{
-		public MainPage()
+        public string DeveloperName { get; } = "Rics";
+
+        public MainPage()
 		{
 			InitializeComponent();
+
+            imgDollar.Source = ImageSource.FromResource("TipCalculator.Resources.dollar.jpg"); //Build action: Embedded resource
 		}
-	}
+
+        private void Onbtn15PercentClicked(object sender, EventArgs e)
+        {
+            Process(Convert.ToDouble(entBill.Text), 0.15);
+        }
+
+        private void Onbtn20PercentClicked(object sender, EventArgs e)
+        {
+            Process(Convert.ToDouble(entBill.Text), 0.20);
+        }
+
+        private void OnbtnRoundDownClicked(object sender, EventArgs e)
+        {
+            Process(Convert.ToDouble(entBill.Text), sdrTipPercentage.Value/100, ComputeMode.RoundDown);
+        }
+
+        private void OnbtnRoundUpClicked(object sender, EventArgs e)
+        {
+            Process(Convert.ToDouble(entBill.Text), sdrTipPercentage.Value/100, ComputeMode.RoundUp);
+        }
+
+        private void OnsdrValueChanged(object sender, ValueChangedEventArgs e)
+        {
+            lblTipPercent.Text = string.Format("{0:F2}%", e.NewValue);
+            Process(Convert.ToDouble(entBill.Text), e.NewValue/100);
+        }
+
+        private bool IsValid(string input)
+        {
+            return !string.IsNullOrWhiteSpace(input);
+        }
+        
+        private void UpdateUI(Calculator calculator)
+        {
+            sdrTipPercentage.Value = calculator.TipFactor*100;
+            lblTipPercent.Text = string.Format("{0:F2}%", calculator.TipFactor*100);
+            lblTipAmount.Text = $"${calculator.TipAmount.ToString("#,##0.00")}";
+            lblTotal.Text = $"${calculator.TotalBill.ToString("#,##0.00")}";
+        }
+
+        private void Process(double billAmount, double tipFactor, ComputeMode computeMode = ComputeMode.Exact)
+        {
+            if (IsValid(entBill.Text))
+            {
+                var calculator = new Calculator(billAmount, tipFactor, computeMode);
+                calculator.Calculate();
+                UpdateUI(calculator);
+            }
+            else
+            {
+                DisplayAlert("Error", "Bill Amount is empty", "Close");
+            }
+        }
+    }
 }
