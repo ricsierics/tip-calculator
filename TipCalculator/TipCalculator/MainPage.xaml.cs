@@ -40,6 +40,18 @@ namespace TipCalculator
             Process(Convert.ToDouble(entBill.Text), e.NewValue/100);
         }
 
+        private void OnentBillTextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(e.NewTextValue))
+            {
+                Process(0, sdrTipPercentage.Value / 100);
+            }
+            else
+            {
+                Process(Convert.ToDouble(e.NewTextValue), sdrTipPercentage.Value / 100);
+            }
+        }
+
         private bool IsValid(string input)
         {
             return !string.IsNullOrWhiteSpace(input);
@@ -55,16 +67,17 @@ namespace TipCalculator
 
         private void Process(double billAmount, double tipFactor, ComputeMode computeMode = ComputeMode.Exact)
         {
+            Calculator calculator;
             if (IsValid(entBill.Text))
             {
-                var calculator = new Calculator(billAmount, tipFactor, computeMode);
-                calculator.Calculate();
-                UpdateUI(calculator);
+                calculator = new Calculator(billAmount, tipFactor, computeMode);
             }
             else
             {
-                DisplayAlert("Error", "Bill Amount is empty", "Close");
+                calculator = new Calculator(0, tipFactor, computeMode);
             }
+            calculator.Calculate();
+            UpdateUI(calculator);
         }
     }
 }
